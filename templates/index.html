@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+
+<style>
+
+.on{
+
+    background-color: aqua;
+
+}
+.off{
+
+    background-color: red;
+
+}
+
+</style>
+
+
+<script>
+
+
+    function router(){
+
+        var on = document.getElementById("router").className;
+        var status;
+        //alert(on);
+
+        if (on=="on"){
+            status=2;
+            document.getElementById("router").className="off";
+
+        }else{
+            document.getElementById("router").className="on";
+            status="1"
+        }
+
+
+
+
+        update_bosse("router",status )
+
+        //alert("router");
+
+        //document.getElementById("router").innerHTML = weekmenu.monday["Vegetariskt alternativ"];
+        //document.getElementsByClassName("router").className == 0;
+
+
+
+
+     }
+
+
+
+
+
+
+     function swith(){
+
+        var on = document.getElementById("swith").className;
+        var status;
+        //alert(on);
+
+        if (on=="on"){
+            status=2;
+            document.getElementById("swith").className="off";
+
+        }else{
+            document.getElementById("swith").className="on";
+            status="1"
+        }
+
+
+
+
+        update_bosse("swith",status )
+
+        //alert("router");
+
+        //document.getElementById("router").innerHTML = weekmenu.monday["Vegetariskt alternativ"];
+        //document.getElementsByClassName("router").className == 0;
+
+
+
+
+     }
+
+
+
+function update_bosse(device,status) {
+
+  // create ajax
+  var xhttp = new XMLHttpRequest();
+  var url=  "/api/v1/powerswitch";
+
+  if (device ){
+
+      if (status){
+
+          url=url + "/" + device +"/" +status;
+
+      }else{
+           url=url +"/" +  device ;
+
+      }
+
+      alert(url);
+
+  }
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+
+
+    }
+
+
+  };
+  xhttp.open("GET", url, true);
+  xhttp.send();
+
+
+}
+
+
+
+
+
+</script>
+
+
+
+</head>
+<body>
+
+
+<button id="router" class='on' onclick="router()")>router</button>
+<button id="swith" class="on" onclick="swith()"> switch</button>
+
+
+
+
+
+
+
+</body>
+</html>
