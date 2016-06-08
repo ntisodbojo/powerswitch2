@@ -1,5 +1,5 @@
 
-tell={'infrastructure':0,'router':0,'switch':0}
+tell={'router':'on','switch':'on'}
 
 
 def status(device,set_status):
@@ -14,7 +14,7 @@ def status(device,set_status):
     if set_status is None:
         return {device:tell[device]}
 
-    if set_status not in [1,2]:
+    if set_status not in ['on','off']:
         return {'error':"wrong status"}
 
     tell[device]=set_status

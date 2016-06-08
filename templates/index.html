@@ -17,6 +17,12 @@
     background-color: red;
 
 }
+.unknown{
+
+    background-color: grey;
+
+}
+
 
 </style>
 
@@ -24,110 +30,52 @@
 <script>
 
 
-    function router(){
+    function powerswitch(device){
 
-        var on = document.getElementById("router").className;
-        var status;
-        //alert(on);
+        let s = document.getElementById(device).className;
+        var status = (s ==='on' ? 'off' : 'on');
+        update_bosse(device,status )
 
-        if (on=="on"){
-            status=2;
-            document.getElementById("router").className="off";
-
-        }else{
-            document.getElementById("router").className="on";
-            status="1"
-        }
-
-
-
-
-        update_bosse("router",status )
-
-        //alert("router");
-
-        //document.getElementById("router").innerHTML = weekmenu.monday["Vegetariskt alternativ"];
-        //document.getElementsByClassName("router").className == 0;
-
-
-
-
-     }
-
-
-
-
-
-
-     function swith(){
-
-        var on = document.getElementById("swith").className;
-        var status;
-        //alert(on);
-
-        if (on=="on"){
-            status=2;
-            document.getElementById("swith").className="off";
-
-        }else{
-            document.getElementById("swith").className="on";
-            status="1"
-        }
-
-
-
-
-        update_bosse("swith",status )
-
-        //alert("router");
-
-        //document.getElementById("router").innerHTML = weekmenu.monday["Vegetariskt alternativ"];
-        //document.getElementsByClassName("router").className == 0;
-
-
-
-
-     }
+    }
 
 
 
 function update_bosse(device,status) {
 
-  // create ajax
-  var xhttp = new XMLHttpRequest();
-  var url=  "/api/v1/powerswitch";
 
-  if (device ){
+    let xhttp = new XMLHttpRequest();
+    let url=  "/api/v1/powerswitch";
 
-      if (status){
+    //build url
+    if (device ){
+      url=url.concat("/",device);
 
-          url=url + "/" + device +"/" +status;
-
-      }else{
-           url=url +"/" +  device ;
-
-      }
-
-      alert(url);
-
-  }
-  xhttp.onreadystatechange = function() {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-
+      if (status)  url=url.concat("/",status);
 
     }
 
-
-  };
-  xhttp.open("GET", url, true);
-  xhttp.send();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            data = JSON.parse(xhttp.responseText);
+            for (let key in data){
+                try {
+                        document.getElementById(key).className=data[key];
+                }
+                catch (e) {
+                   // statements to handle any exceptions
+                   console.log(e); // pass exception object to error handler
+                }
+            }
+        }
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
 
 
 }
 
 
-
+setInterval(update_bosse,5000);
 
 
 </script>
@@ -138,12 +86,14 @@ function update_bosse(device,status) {
 <body>
 
 
-<button id="router" class='on' onclick="router()")>router</button>
-<button id="swith" class="on" onclick="swith()"> switch</button>
+<button id="router" class='unknown' onclick="powerswitch('router')")>router</button>
+<button id="switch" class="unknown" onclick="powerswitch('switch')"> switch</button>
 
 
 
-
+<script>
+    update_bosse();
+</script>
 
 
 

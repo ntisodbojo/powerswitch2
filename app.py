@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/api/v1/powerswitch')
 @app.route('/api/v1/powerswitch/<device>')
-@app.route('/api/v1/powerswitch/<device>/<int:set_status>')
+@app.route('/api/v1/powerswitch/<device>/<set_status>')
 def powerswitch_api(device=None,set_status=None):
 
     response=powerswitch.status(device,set_status)
